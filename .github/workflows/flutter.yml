@@ -41,28 +41,20 @@ jobs:
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
         run: dart analyze
-      
-      - name: ref name
-        run: echo ${{ github.ref }}
 
-  build:
-    name: Build
-
-    if: startsWith(github.event.head_commit.message, 'version')
-    needs: check-validation
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Setup Java
+        if: startsWith(github.event.head_commit.message, 'version')
         uses: actions/setup-java@v2
         with:
           distribution: "zulu"
           java-version: "11"
 
       - name: Build apk
+        if: startsWith(github.event.head_commit.message, 'version')
         run: flutter build apk
 
       - name: Release
+        if: startsWith(github.event.head_commit.message, 'version')
         uses: softprops/action-gh-release@v1
         with:
           files: build/app/outputs/apk/release/app-release.apk
