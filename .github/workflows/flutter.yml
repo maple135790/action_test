@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: ⚙️ Cache Flutter dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter
@@ -45,7 +45,7 @@ jobs:
 
       - name: 🔨 (Release) Setup Java
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: "zulu"
           java-version: "11"
@@ -61,6 +61,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: build/app/outputs/apk/release/app-release.apk
-          body: |
-            ### Changelog
-            ${{ github.event.head_commit.message}}
+          body: ${{ github.event.head_commit.message }}
